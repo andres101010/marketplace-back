@@ -11,7 +11,7 @@ const conectBD = mysql.createConnection({
 })
 
 /* GET home page. */
-router.get('/', (req, res, next) => {
+router.get('/', (req, res) => {
     const {user, password} = req.body
     const values = [user, password]
     const sql = 'select * from providers'
@@ -26,6 +26,22 @@ router.get('/', (req, res, next) => {
                 res.status(400).send('No hay proveedores registrados.')
             }
         }
+    })
+});
+
+router.post('/create-provider', (req, res) => {
+    const sql = 'INSERT INTO providers SET ?'
+
+    const providerObj = {
+        nombre: req.body.nombre,
+        usuario: req.body.usuario,
+        rol: req.body.rol
+    }
+
+    conectBD.query(sql, providerObj, error  => {
+        if (error) throw error
+
+        res.send('El proveedor fue creado con exito')
     })
 });
 
