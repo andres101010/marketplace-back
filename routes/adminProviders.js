@@ -45,4 +45,20 @@ router.post('/create-provider', (req, res) => {
     })
 });
 
+router.put('/update-provider/:providerId', async(req,res) =>{
+    console.log('req.params',req.params)
+    const id = req.params.providerId
+
+    const {nombre,usuario,rol} = req.body
+
+    const sql = `UPDATE providers SET nombre = '${nombre}', usuario = '${usuario}', rol = '${rol}'
+        where idproviders = ${id}
+    `
+    await conectBD.query(sql, error => {
+        if (error) throw error
+
+        res.send(`Usuario con el id: ${id}, fue actualizado con exito.`)
+    })
+})
+
 module.exports = router;
