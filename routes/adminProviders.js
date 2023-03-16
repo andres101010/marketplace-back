@@ -61,4 +61,17 @@ router.put('/update-provider/:providerId', async(req,res) =>{
     })
 })
 
+router.put('/delete-provider/:providerId', async(req,res) =>{
+    console.log('req.params',req.params)
+    const id = req.params.providerId
+
+    const sql = `DELETE FROm providers  where idproviders = ${id}
+    `
+    await conectBD.query(sql, error => {
+        if (error) throw error
+
+        res.send(`Usuario con el id: ${id}, fue eliminado con exito.`)
+    })
+})
+
 module.exports = router;
